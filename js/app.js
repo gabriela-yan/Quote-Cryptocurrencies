@@ -1,4 +1,11 @@
 const cryptoSelect = document.querySelector('#criptomonedas');
+const currencySelect = document.querySelector('#moneda');
+const form = document.querySelector('#formulario');
+
+const objSearch = {
+    moneda: '',
+    criptomoneda: ''
+}
 
 // Create Promise
 const getCrypto = cryptocurrencies => new Promise( resolve => {
@@ -7,6 +14,11 @@ const getCrypto = cryptocurrencies => new Promise( resolve => {
 
 document.addEventListener('DOMContentLoaded', () => {
     consultCryptocurrencies();
+
+    form.addEventListener('submit', submitForm);
+
+    currencySelect.addEventListener('change', readValue);
+    cryptoSelect.addEventListener('change', readValue);
 });
 
 function consultCryptocurrencies() {
@@ -27,4 +39,26 @@ function cryptocurrenciesSelect(cryptocurrencies) {
 
         cryptoSelect.appendChild(option);
     })
+}
+
+function readValue(e){
+    objSearch[e.target.name] = e.target.value;
+    console.log(objSearch);
+}
+
+function submitForm(e) {
+
+    e.preventDefault();
+
+    // Validate
+    const { moneda, criptomoneda } = objSearch;
+
+    if(moneda === '' || criptomoneda === ''){
+        showAlert('Ambos campos son obligatorios');
+        return;
+    }
+}
+
+function showAlert(message) {
+    console.log(message);
 }
